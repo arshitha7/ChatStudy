@@ -2,6 +2,8 @@
 
 ## Aim: 
 To perform a study on Client Server Chat Applications
+### Name: ARSHITHA MS
+### Register Number: 212223240015
 ## Introduction:
 Client-server chat applications are a category of networked software that enables real-time communication between users over a network. This study explores the key components, architecture, and considerations in the development of client-server chat applications, highlighting their significance and common implementation practices.
 Client-server chat applications are software systems that enable real-time communication between users over a network. These applications follow a client-server model, where one component (the server) manages connections and facilitates communication, while the other component (the client) interacts with the server to send and receive messages. Below are the fundamental aspects and components involved in the basics of client-server chat applications:
@@ -72,6 +74,74 @@ User authentication mechanisms are essential to ensure secure and authorized acc
 Client-server chat applications are versatile tools that facilitate real-time communication between users over a network. They incorporate various components, including server-side and client-side elements, and must consider factors such as security, scalability, and concurrency. As technology continues to advance, client-server chat applications remain integral for collaborative communication in various domains.
 
 Client-server chat applications are foundational to real-time communication over networks. They incorporate principles of socket programming, communication protocols, and security mechanisms to provide a seamless user experience. Understanding the basics of client-server chat applications is essential for developers involved in networked application development, as they form the backbone of various collaborative communication systems. As technology evolves, chat applications continue to adapt, incorporating new features and technologies to enhance user interaction and connectivity.
+### PROGRAM:
+CLIENT:
+```
+import socket
+
+
+def client_program():
+    host = socket.gethostname()  # as both code is running on same pc
+    port = 5000  # socket server port number
+
+    client_socket = socket.socket()  # instantiate
+    client_socket.connect((host, port))  # connect to the server
+
+    message = input(" -> ")  # take input
+
+    while message.lower().strip() != 'bye':
+        client_socket.send(message.encode())  # send message
+        data = client_socket.recv(1024).decode()  # receive response
+
+        print('Received from server: ' + data)  # show in terminal
+
+        message = input(" -> ")  # again take input
+
+    client_socket.close()  # close the connection
+
+
+if __name__ == '__main__':
+    client_program()
+```
+SERVER:
+```
+import socket
+def server_program():
+    # get the hostname
+    host = socket.gethostname()
+    port = 5000  # initiate port no above 1024
+
+    server_socket = socket.socket()  # get instance
+    # look closely. The bind() function takes tuple as argument
+    server_socket.bind((host, port))  # bind host address and port together
+
+    # configure how many client the server can listen simultaneously
+    server_socket.listen(2)
+    conn, address = server_socket.accept()  # accept new connection
+    print("Connection from: " + str(address))
+    while True:
+        # receive data stream. it won't accept data packet greater than 1024 bytes
+        data = conn.recv(1024).decode()
+        if not data:
+            # if data is not received break
+            break
+        print("from connected user: " + str(data))
+        data = input(' -> ')
+        conn.send(data.encode())  # send data to the client
+
+    conn.close()  # close the connection
+
+
+if __name__ == '__main__':
+    server_program()
+```
+### OUTPUT:
+
+CLIENT:
+![image](https://github.com/user-attachments/assets/834a70f6-2af3-48aa-8835-1c48cd0065e7)
+
+SERVER:
+![image](https://github.com/user-attachments/assets/bb77c36e-d51b-465b-8ae1-7acb844a07ad)
 
 
 ## Result:
